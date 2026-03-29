@@ -1,0 +1,70 @@
+.testimonial-section {
+  padding: 80px 20px;
+  background: #f5f5f5;
+  text-align: center;
+  position: relative;
+}
+
+.title {
+  font-size: 28px;
+  margin-bottom: 50px;
+}
+
+/* slider container */
+.slider {
+  position: relative;
+  height: 250px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden; /* ✅ removes scrollbar */
+}
+
+/* card */
+.testimonial-card {
+  position: absolute;
+  width: 320px;
+  padding: 20px;
+  background: white;
+  border-radius: 15px;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+  transition: all 0.5s ease;
+  opacity: 0;
+  transform: scale(0.8);
+}
+
+/* active (center zoom) */
+.activeSlide {
+  opacity: 1;
+  transform: scale(1.1);
+  z-index: 2;
+}
+
+/* left */
+.prevSlide {
+  transform: translateX(-120%) scale(0.9);
+  opacity: 0.5;
+}
+
+/* right */
+.nextSlide {
+  transform: translateX(120%) scale(0.9);
+  opacity: 0.5;
+}
+
+.message {
+  font-size: 14px;
+  margin-bottom: 15px;
+}
+
+.user {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.user img {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+}
