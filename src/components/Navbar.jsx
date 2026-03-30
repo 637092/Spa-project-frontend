@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
-import { BACKEND_URL } from "../api/config";
+import { Link } from "react-router-dom";
+import api from "../api/axios"; // ✅ USE YOUR AXIOS INSTANCE
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -10,18 +9,17 @@ const Navbar = () => {
   const [mobileSupportOpen, setMobileSupportOpen] = useState(false);
   const [logo, setLogo] = useState(null);
   const supportRef = useRef(null);
-  const navigate = useNavigate();
 
-  // 🔥 FETCH LOGO
+  // ✅ FIXED LOGO FETCH
   useEffect(() => {
     const fetchLogo = async () => {
       try {
-        const response = await axios.get(`${BACKEND_URL}/api/logo/`);
-        if (response.data.logo) {
+        const response = await api.get("logo/"); // ✅ NO localhost
+        if (response.data) {
           setLogo(response.data);
         }
       } catch (error) {
-        console.log("Logo not found or API error");
+        console.log("Logo API error:", error);
       }
     };
     fetchLogo();
@@ -36,7 +34,7 @@ const Navbar = () => {
     }
   }, []);
 
-  // 🔥 FIX 2: close support when clicking outside
+  // CLOSE SUPPORT ON OUTSIDE CLICK
   useEffect(() => {
     const handler = (e) => {
       if (supportRef.current && !supportRef.current.contains(e.target)) {
@@ -60,11 +58,11 @@ const Navbar = () => {
 
   return (
     <nav className="spa-navbar">
-      {/* 🔥 LOGO WITH TEXT ON RIGHT */}
+      {/* LOGO */}
       <Link to="/" className="spa-brand">
         {logo?.logo && (
-          <img 
-            src={`${BACKEND_URL}${logo.logo}`} 
+          <img
+            src={logo.logo} // ✅ already full URL from backend
             alt={logo.alt_text || "Elegant Thai Spa Logo"}
             className="spa-logo-img"
           />
@@ -85,11 +83,9 @@ const Navbar = () => {
         <Link to="/">Home</Link>
         <Link to="/services">Services</Link>
         <Link to="/gallery">Gallery</Link>
-
-        {/* ✅ FEEDBACK LINK */}
         <Link to="/feedback">Feedback</Link>
 
-        {/* SUPPORT – DESKTOP */}
+        {/* SUPPORT */}
         <div className="support-wrapper" ref={supportRef}>
           <button
             className="support-btn"
@@ -103,18 +99,10 @@ const Navbar = () => {
               <Link to="/support" onClick={() => setSupportOpen(false)}>
                 📩 Contact Us
               </Link>
-
-              <Link
-                to="/report-bug?type=bug"
-                onClick={() => setSupportOpen(false)}
-              >
+              <Link to="/report-bug" onClick={() => setSupportOpen(false)}>
                 🐞 Report a Bug
               </Link>
-
-              <Link
-                to="/ai"
-                onClick={() => setSupportOpen(false)}
-              >
+              <Link to="/ai" onClick={() => setSupportOpen(false)}>
                 🤖 AI Assistant
               </Link>
             </div>
@@ -129,7 +117,9 @@ const Navbar = () => {
           <span className={`switch-thumb ${dark ? "dark" : ""}`} />
         </div>
 
-        <Link to="/book" className="book-btn">Book Now</Link>
+        <Link to="/book" className="book-btn">
+          Book Now
+        </Link>
       </div>
 
       {/* MOBILE MENU */}
@@ -137,11 +127,8 @@ const Navbar = () => {
         <Link onClick={() => setMenuOpen(false)} to="/">Home</Link>
         <Link onClick={() => setMenuOpen(false)} to="/services">Services</Link>
         <Link onClick={() => setMenuOpen(false)} to="/gallery">Gallery</Link>
-
-        {/* ✅ MOBILE FEEDBACK */}
         <Link onClick={() => setMenuOpen(false)} to="/feedback">Feedback</Link>
 
-        {/* MOBILE SUPPORT */}
         <div className="mobile-support">
           <button
             className="mobile-support-btn"
@@ -153,33 +140,13 @@ const Navbar = () => {
 
           {mobileSupportOpen && (
             <div className="mobile-support-panel">
-              <Link
-                to="/support"
-                onClick={() => {
-                  setMenuOpen(false);
-                  setMobileSupportOpen(false);
-                }}
-              >
+              <Link to="/support" onClick={() => setMenuOpen(false)}>
                 📩 Contact Us
               </Link>
-
-              <Link
-                to="/report-bug"
-                onClick={() => {
-                  setMenuOpen(false);
-                  setMobileSupportOpen(false);
-                }}
-              >
+              <Link to="/report-bug" onClick={() => setMenuOpen(false)}>
                 🐞 Report a Bug
               </Link>
-
-              <Link
-                to="/ai"
-                onClick={() => {
-                  setMenuOpen(false);
-                  setMobileSupportOpen(false);
-                }}
-              >
+              <Link to="/ai" onClick={() => setMenuOpen(false)}>
                 🤖 AI Assistant
               </Link>
             </div>
@@ -190,18 +157,9 @@ const Navbar = () => {
           Admin
         </Link>
 
-        <div className="mobile-theme-wrapper">
-          <button
-            className="mobile-theme-btn"
-            onClick={toggleTheme}
-            aria-label="Toggle light/dark theme"
-          >
-            <span>{dark ? "Dark Mode" : "Light Mode"}</span>
-            <div className="theme-switch mobile">
-              <span className={`switch-thumb ${dark ? "dark" : ""}`} />
-            </div>
-          </button>
-        </div>
+        <button onClick={toggleTheme}>
+          {dark ? "Dark Mode" : "Light Mode"}
+        </button>
 
         <Link onClick={() => setMenuOpen(false)} to="/book" className="book-btn">
           Book Now
