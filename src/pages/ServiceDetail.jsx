@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import axios from "axios";
+import api from "../api/axios"; // ✅ use your axios instance
 import Services from "./Services";
 
 const ServiceDetail = () => {
@@ -16,7 +16,10 @@ const ServiceDetail = () => {
 
   useEffect(() => {
     setAnimate(false); // reset animation on route change
-    axios.get(`https://spa-project-backend-1.onrender.com/api/services/${id}/`)
+    setLoading(true);
+
+    api
+      .get(`services/${id}/`) // ✅ FIXED (no localhost)
       .then((res) => {
         setService(res.data);
         setLoading(false);
@@ -29,7 +32,10 @@ const ServiceDetail = () => {
         // 🔥 trigger animation smoothly after mount
         setTimeout(() => setAnimate(true), 100);
       })
-      .catch(() => setLoading(false));
+      .catch((err) => {
+        console.error("Error fetching service:", err); // ✅ DEBUG
+        setLoading(false);
+      });
   }, [id]);
 
   if (loading)
