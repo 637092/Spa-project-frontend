@@ -83,7 +83,13 @@ const BookAppointment = () => {
         const opt = found.options.find(
           o => String(o.id) === String(optionFromUrl)
         );
-        if (opt) setSelectedOption(opt);
+        if (opt) {
+  setSelectedOption(opt);
+  setFormData(prev => ({
+    ...prev,
+    service_option: opt.id,
+  }));
+}
       } else if (found.options?.length > 0) {
         setSelectedOption(found.options[0]);
       }
@@ -190,6 +196,7 @@ const openRazorpay = async () => {
 
         api.post("appointments/", {
           service: formData.service,
+          service_option: selectedOption?.id,
           date: formData.date,
           time: formData.time,
           customer_name: formData.name,
@@ -255,6 +262,7 @@ const openRazorpay = async () => {
 
     api.post("appointments/", {
       service: formData.service,
+      service_option: selectedOption?.id,
       date: formData.date,
       time: formData.time,
       customer_name: formData.name,
