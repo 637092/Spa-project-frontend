@@ -16,9 +16,7 @@ const ServiceDetail = () => {
 
   useEffect(() => {
     setAnimate(false); // reset animation on route change
-
-    axios
-      .get(`http://127.0.0.1:8000/api/services/${id}/`)
+    axios.get(`https://spa-project-backend-1.onrender.com/api/services/${id}/`)
       .then((res) => {
         setService(res.data);
         setLoading(false);
