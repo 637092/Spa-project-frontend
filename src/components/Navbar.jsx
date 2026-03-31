@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
-import api from "../api/axios"; // ✅ USE YOUR AXIOS INSTANCE
+import api from "../api/axios";
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -14,7 +14,7 @@ const Navbar = () => {
   useEffect(() => {
     const fetchLogo = async () => {
       try {
-        const response = await api.get("logo/"); // ✅ NO localhost
+        const response = await api.get("logo/");
         if (response.data) {
           setLogo(response.data);
         }
@@ -60,9 +60,9 @@ const Navbar = () => {
     <nav className="spa-navbar">
       {/* LOGO */}
       <Link to="/" className="spa-brand">
-        {logo?.logo && (
+        {logo?.logo_url && (
           <img
-            src={logo.logo} // ✅ already full URL from backend
+            src={logo.logo_url}  // ✅ FIXED HERE
             alt={logo.alt_text || "Elegant Thai Spa Logo"}
             className="spa-logo-img"
           />
