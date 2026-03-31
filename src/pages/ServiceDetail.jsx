@@ -59,7 +59,6 @@ const ServiceDetail = () => {
               src={service.image_url}
               alt={service.name}
             />
-
           </div>
 
           {/* CONTENT */}
