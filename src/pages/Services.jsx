@@ -57,11 +57,12 @@ const Services = () => {
                     : "from-right"
                 }`}
               >
-              <img
-                src={service.image_url}
-                alt={service.name}
-                loading="lazy"
-              />
+                <img
+                  src={service.image_url}
+                  alt={service.name}
+                  loading="lazy"
+                />
+
                 <div className="service-overlay">
                   <h3>{service.name}</h3>
 
