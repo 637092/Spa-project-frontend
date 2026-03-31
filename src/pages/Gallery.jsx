@@ -46,7 +46,8 @@ const Gallery = () => {
                   : "from-right"
               }`}
             >
-              <img src={img.image} alt="" />
+              {/* ✅ FIXED HERE */}
+              <img src={img.image_url} alt="" />
             </div>
           ))}
         </div>
