@@ -56,9 +56,10 @@ const ServiceDetail = () => {
             }`}
           >
             <img
-              src={service.image || service.image_url}
+              src={service.image_url}
               alt={service.name}
             />
+
           </div>
 
           {/* CONTENT */}
